@@ -1,0 +1,11 @@
+# misc
+*.iml
+.tscache
+.DS_Store
+package-lock.json
+*/.opa_history
+*.exe
+
+# IDEs and editors
+.idea
+.vscode/*

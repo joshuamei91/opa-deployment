@@ -1,0 +1,8 @@
+{
+	"user_roles": {
+		"alice": ["group1", "group2"],
+		"bob": ["group3"],
+		"charlie": ["group1", "group3"],
+		"dave": ["group4"]
+	}
+}

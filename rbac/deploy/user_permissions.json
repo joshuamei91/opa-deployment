@@ -1,0 +1,15 @@
+{
+  "user_permissions": {
+    "alice": {
+      "database1": [
+        "write"
+      ]
+  },
+  "bob": {
+      "service2": [
+        "read"
+      ]
+    }
+  }
+}
+

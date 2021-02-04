@@ -1,0 +1,36 @@
+{
+	"role_permissions": {
+		"group1": {
+			"server1": [
+				"read"
+			]
+		},
+		"group2": {
+			"server2": [
+				"read",
+				"write"
+			],
+			"server3": [
+				"write"
+			]
+		},
+		"group3": {
+			"database1": [
+				"read"
+			],
+			"service1": [
+				"read"
+			]
+		},
+		"group4": {
+			"database2": [
+				"read",
+				"write"
+			],
+			"service2": [
+				"read",
+				"write"
+			]
+		}
+	}
+}

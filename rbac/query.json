@@ -1,0 +1,8 @@
+{
+	"input": 
+	{
+		"user": "alice",
+		"action": "read",
+		"resource": "database2"
+	}
+}

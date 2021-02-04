@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opa
+  labels:
+    app: opa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opa
+  template:
+    metadata:
+      labels:
+        app: opa
+      name: opa
+    spec:
+      containers:
+      - name: opa
+        image: openpolicyagent/opa:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: https
+          containerPort: 8181
+        args:
+        - "run"
+        - "--ignore=.*"  # exclude hidden dirs created by Kubernetes
+        - "--server"
+        - "--log-level=debug"
+        - "--skip-version-check" # to avoid error msg in offline environment when OPA tries to send telemetry
+        - "--tls-cert-file=/opa-certs/opa-public.crt" # to set up TLS
+        - "--tls-private-key-file=/opa-certs/opa-private.key" # to set up TLS
+        - "--authentication=token"
+        - "--authorization=basic"
+        # - "--diagnostic-addr=:8282"
+        - "/deploy"
+        volumeMounts:
+        - readOnly: true
+          mountPath: /deploy
+          name: policies-data
+        - readOnly: true
+          mountPath: /opa-certs
+          name: opa-certs
+        livenessProbe:
+          httpGet:
+            scheme: HTTPS              # assumes OPA listens on localhost:8181
+            path: /
+            port: 8181
+          initialDelaySeconds: 5      # tune these periods for your environemnt
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health?bundle=true  # Include bundle activation in readiness
+            scheme: HTTPS
+            port: 8181
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: policies-data
+        configMap:
+          name: policies-data
+      - name: opa-certs
+        configMap:
+          name: opa-certs
