@@ -256,14 +256,23 @@ The document structure will be `data.deploy.user_roles`, `data.deploy.role_permi
 ## Deploy OPA in Kubernetes
 Refer to the [deployment guide][deployment] for instructions on how to deploy the OPA docker image on Kubernetes.
 
-## Testing policies
+```
+# To query the OPA deployed on Kube
+# -k: ignore self-sign cert error
+# use the query from query.json
+curl -k -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.EpM5XBzTJZ4J8AfoJEcJrjth8pfH28LWdjLo90sYb9g" --data @rbac/query.json https://<ipaddress>:<port>/v1/data/rbac/authz
 
+# use query from command line input
+curl -k -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.EpM5XBzTJZ4J8AfoJEcJrjth8pfH28LWdjLo90sYb9g" -d "{\"input\":{\"user\": \"alice\",\"action\": \"read\",\"resource\": \"database2\"}}" https://<ipaddress>:<port>/v1/data/rbac/authz
+```
+
+## Testing policies
 To verify correctness of policies, you can write tests (see `test` folder) and allow examine the coverage of your tests. Run the following command in your development environment. 
 
 > Note: you need to include explicitly include the `./deploy` folder otherwise it will not pick up the policy and data files
 
 ```
-opa test ./deploy ./test -v
+opa test ./rbac/deploy ./rbac/test -v --coverage
 ```
 
 ## Additional points to note
