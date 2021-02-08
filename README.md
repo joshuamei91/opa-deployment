@@ -256,6 +256,16 @@ The document structure will be `data.deploy.user_roles`, `data.deploy.role_permi
 ## Deploy OPA in Kubernetes
 Refer to the [deployment guide][deployment] for instructions on how to deploy the OPA docker image on Kubernetes.
 
+## Testing policies
+
+To verify correctness of policies, you can write tests (see `test` folder) and allow examine the coverage of your tests. Run the following command in your development environment. 
+
+> Note: you need to include explicitly include the `./deploy` folder otherwise it will not pick up the policy and data files
+
+```
+opa test ./deploy ./test -v
+```
+
 ## Additional points to note
 
 ### Considerations on different methods to load data and policies
